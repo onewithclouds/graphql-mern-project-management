@@ -3,13 +3,15 @@ import { useParams, Link } from "react-router-dom";
 import Spinner from "../components/Spinner";
 import { GET_PROJECT } from "../queries/projectQueries";
 import ClientInfo from "../components/ClientInfo";
+import DeleteProjectButton from "../components/DeleteProjectButton";
+import EditProjectForm from "../components/EditProjectForm";
 
 export default function Project() {
     const { id } = useParams();
 
     const { loading, error, data } = useQuery(GET_PROJECT,
-        { variables: { id } }
-        );
+        { variables: { id } },
+    );
 
     if ( loading ) return <Spinner />;
     if ( error ) return <p>Error: {error.message}</p>
@@ -28,6 +30,10 @@ export default function Project() {
                 <p className="lead">{data.project.status}</p>
 
                 <ClientInfo client={data.project.client} />
+
+                <EditProjectForm project={data.project} />
+
+                <DeleteProjectButton project={data.project} />
 
             </div>
         }
